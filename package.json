@@ -31,8 +31,8 @@
       "npm run test -- --run --passWithNoTests"
     ],
     "src-tauri/**/*.rs": [
-      "cd src-tauri && cargo fmt -- --check",
-      "cd src-tauri && cargo test"
+      "cd src-tauri && cargo fmt",
+      "cd src-tauri && cargo test --quiet"
     ]
   }
 }

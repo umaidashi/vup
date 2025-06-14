@@ -1,13 +1,16 @@
 // Tauri APIのインポート
 let invoke;
+let invokeReady = false;
 
 if (typeof window !== 'undefined' && window.__TAURI__) {
   // テスト環境
   invoke = window.__TAURI__.tauri.invoke;
+  invokeReady = true;
 } else {
   // 本番環境
   import('@tauri-apps/api/tauri').then(module => {
     invoke = module.invoke;
+    invokeReady = true;
   }).catch(error => {
     console.error('Failed to load Tauri API:', error);
   });
@@ -19,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (greetBtn) {
     greetBtn.addEventListener('click', async () => {
-      if (!invoke) {
+      if (!invokeReady || !invoke) {
         console.error('Tauri API not loaded');
         return;
       }

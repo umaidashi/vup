@@ -18,13 +18,15 @@ describe('Greet機能', () => {
     // Tauri invokeのモックをリセット
     vi.clearAllMocks()
     
-    // main.jsを再読み込み（DOMContentLoadedをトリガー）
-    await import('../main.js')
+    // DOMContentLoadedイベントをトリガーしてからmain.jsを読み込み
     const event = new Event('DOMContentLoaded')
     document.dispatchEvent(event)
     
-    // DOMイベントの処理を少し待つ
-    await new Promise(resolve => setTimeout(resolve, 10))
+    // main.jsを動的にインポート
+    await import('../main.js')
+    
+    // DOMイベントの処理を待つ
+    await new Promise(resolve => setTimeout(resolve, 50))
     
     greetBtn = document.getElementById('greet-btn')
     nameInput = document.getElementById('name-input')
@@ -39,7 +41,7 @@ describe('Greet機能', () => {
 
     // Act
     greetBtn.click()
-    await new Promise(resolve => setTimeout(resolve, 10)) // Promiseの解決を待つ
+    await new Promise(resolve => setTimeout(resolve, 50)) // Promiseの解決を待つ
 
     // Assert
     expect(window.__TAURI__.tauri.invoke).toHaveBeenCalledWith('greet', { name: testName })
@@ -54,7 +56,7 @@ describe('Greet機能', () => {
 
     // Act
     greetBtn.click()
-    await new Promise(resolve => setTimeout(resolve, 10)) // Promiseの解決を待つ
+    await new Promise(resolve => setTimeout(resolve, 50)) // Promiseの解決を待つ
 
     // Assert
     expect(greetingMessage.textContent).toBe(expectedMessage)
@@ -67,7 +69,7 @@ describe('Greet機能', () => {
 
     // Act
     greetBtn.click()
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 50))
 
     // Assert
     expect(window.__TAURI__.tauri.invoke).toHaveBeenCalledWith('greet', { name: '' })
