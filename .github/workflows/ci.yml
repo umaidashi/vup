@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, feature/*, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test-frontend:
+    name: フロントエンドテスト
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Node.jsのセットアップ
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: 依存関係のインストール
+      run: npm ci
+    
+    - name: フロントエンドテストの実行
+      run: npm run test -- --run
+    
+    - name: テストカバレッジの生成
+      run: npm run test:coverage -- --run
+
+  test-rust:
+    name: Rustテスト
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Rustツールチェーンのセットアップ
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: キャッシュの復元
+      uses: Swatinem/rust-cache@v2
+      with:
+        workspaces: src-tauri
+    
+    - name: Rustテストの実行
+      run: |
+        cd src-tauri
+        cargo test --all-features
+    
+    - name: Rustフォーマットチェック
+      run: |
+        cd src-tauri
+        cargo fmt -- --check
+    
+    - name: Clippy（リンター）の実行
+      run: |
+        cd src-tauri
+        cargo clippy -- -D warnings
+
+  build-tauri:
+    name: Tauriアプリのビルドテスト
+    needs: [test-frontend, test-rust]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Node.jsのセットアップ
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Rustツールチェーンのセットアップ
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: 依存関係のインストール（Ubuntu）
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libayatana-appindicator3-dev librsvg2-dev
+    
+    - name: npm依存関係のインストール
+      run: npm ci
+    
+    - name: フロントエンドのビルド
+      run: npm run build
+    
+    - name: Tauriアプリのビルド
+      run: npm run tauri build

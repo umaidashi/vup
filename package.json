@@ -7,13 +7,32 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.0",
-    "vite": "^5.0.0"
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "husky": "^9.1.7",
+    "jsdom": "^26.1.0",
+    "lint-staged": "^16.1.0",
+    "vite": "^5.0.0",
+    "vitest": "^3.2.3"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run test -- --run --passWithNoTests"
+    ],
+    "src-tauri/**/*.rs": [
+      "cd src-tauri && cargo fmt -- --check",
+      "cd src-tauri && cargo test"
+    ]
   }
 }
