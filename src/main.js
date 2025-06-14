@@ -1,7 +1,39 @@
-import { invoke } from '@tauri-apps/api/tauri'
+// Tauri APIのインポート
+let invoke;
+let invokeReady = false;
 
-document.getElementById('greet-btn').addEventListener('click', async () => {
-    const name = document.getElementById('name-input').value
-    const message = await invoke('greet', { name })
-    document.getElementById('greeting-message').textContent = message
-})
+if (typeof window !== 'undefined' && window.__TAURI__) {
+  // テスト環境
+  invoke = window.__TAURI__.tauri.invoke;
+  invokeReady = true;
+} else {
+  // 本番環境
+  import('@tauri-apps/api/tauri').then(module => {
+    invoke = module.invoke;
+    invokeReady = true;
+  }).catch(error => {
+    console.error('Failed to load Tauri API:', error);
+  });
+}
+
+// DOMが読み込まれた後に実行
+document.addEventListener('DOMContentLoaded', () => {
+  const greetBtn = document.getElementById('greet-btn');
+  
+  if (greetBtn) {
+    greetBtn.addEventListener('click', async () => {
+      if (!invokeReady || !invoke) {
+        console.error('Tauri API not loaded');
+        return;
+      }
+      
+      const name = document.getElementById('name-input').value;
+      try {
+        const message = await invoke('greet', { name });
+        document.getElementById('greeting-message').textContent = message;
+      } catch (error) {
+        console.error('Failed to invoke greet command:', error);
+      }
+    });
+  }
+});

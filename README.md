@@ -61,6 +61,36 @@ vup/
 - Built with Tauri and Vite
 - Basic IPC communication example (greet command)
 
+## テスト
+
+本プロジェクトはTDD（テスト駆動開発）の原則に従っています。
+
+### フロントエンドテスト
+```bash
+# テストの実行
+npm run test
+
+# UIモードでテストを実行
+npm run test:ui
+
+# カバレッジレポートの生成
+npm run test:coverage
+```
+
+### Rustテスト
+```bash
+cd src-tauri
+cargo test
+```
+
+### CI/CD
+- GitHub Actionsによる自動テスト実行
+- プルリクエスト時のテスト必須化
+- マルチプラットフォーム（Windows, macOS, Linux）でのビルドテスト
+
+### Pre-commitフック
+コミット前に自動的にテストとコードフォーマットチェックが実行されます。
+
 ## License
 
 TBD
