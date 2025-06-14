@@ -8,6 +8,8 @@ if (typeof window !== 'undefined' && window.__TAURI__) {
   // 本番環境
   import('@tauri-apps/api/tauri').then(module => {
     invoke = module.invoke;
+  }).catch(error => {
+    console.error('Failed to load Tauri API:', error);
   });
 }
 

@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 // Tauri APIのモック
 window.__TAURI__ = {
   tauri: {

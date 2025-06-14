@@ -5,7 +5,7 @@ describe('Greet機能', () => {
   let nameInput
   let greetingMessage
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // DOMのセットアップ
     document.body.innerHTML = `
       <div id="app">
@@ -19,10 +19,12 @@ describe('Greet機能', () => {
     vi.clearAllMocks()
     
     // main.jsを再読み込み（DOMContentLoadedをトリガー）
-    import('../main.js').then(() => {
-      const event = new Event('DOMContentLoaded')
-      document.dispatchEvent(event)
-    })
+    await import('../main.js')
+    const event = new Event('DOMContentLoaded')
+    document.dispatchEvent(event)
+    
+    // DOMイベントの処理を少し待つ
+    await new Promise(resolve => setTimeout(resolve, 10))
     
     greetBtn = document.getElementById('greet-btn')
     nameInput = document.getElementById('name-input')
