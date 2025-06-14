@@ -1,36 +1,42 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、このリポジトリでコードを扱う際のClaude Code (claude.ai/code) への指針を提供します。
 
-## Repository Overview
+## 言語設定
 
-This is a new repository called "vup" that currently has minimal structure. The repository appears to be in its initial stages with only a README.md file containing the project name.
+- ユーザーとのやり取りは**日本語**で行うこと
+- コメント、ドキュメント、コミットメッセージなども**日本語**で記述すること
+- コード内の変数名や関数名は英語で記述すること
 
-## Development Methodology
+## リポジトリ概要
 
-This project follows **Test-Driven Development (TDD)** principles. When implementing features:
+これは「vup」という名前の新しいリポジトリで、現在は最小限の構造しかありません。リポジトリはプロジェクト名のみを含むREADME.mdファイルがある初期段階にあります。
 
-1. Write tests first before implementing functionality
-2. Ensure tests fail initially (Red phase)
-3. Write minimal code to make tests pass (Green phase)
-4. Refactor code while keeping tests passing (Refactor phase)
-5. Maintain high test coverage throughout the development process
+## 開発方法論
 
-## Development Setup
+このプロジェクトは**テスト駆動開発（TDD）**の原則に従います。機能を実装する際は：
 
-Since this is a new repository with no existing code or configuration files, the development setup will depend on the technology stack chosen for the project. Future instances of Claude Code should:
+1. 機能を実装する前にテストを先に書く
+2. テストが最初は失敗することを確認する（レッドフェーズ）
+3. テストを通すための最小限のコードを書く（グリーンフェーズ）
+4. テストが通る状態を保ちながらコードをリファクタリングする（リファクタフェーズ）
+5. 開発プロセス全体を通じて高いテストカバレッジを維持する
 
-1. Check for any newly added configuration files (package.json, Cargo.toml, requirements.txt, etc.) to understand the project's technology stack
-2. Look for build configuration files to determine how to build and run the project
-3. Search for test frameworks and testing patterns once code is added
+## 開発環境のセットアップ
 
-## Project Structure
+これは新しいリポジトリで、まだコードや設定ファイルがないため、開発環境のセットアップはプロジェクトで選択される技術スタックに依存します。将来のClaude Codeインスタンスは以下を行うべきです：
 
-Currently, the repository only contains:
-- `README.md` - Contains only the project name "vup"
+1. 新しく追加された設定ファイル（package.json、Cargo.toml、requirements.txtなど）をチェックして、プロジェクトの技術スタックを理解する
+2. ビルド設定ファイルを探して、プロジェクトのビルドと実行方法を判断する
+3. コードが追加されたら、テストフレームワークとテストパターンを検索する
 
-As the project develops, this file should be updated with:
-- Build and development commands
-- Testing instructions
-- High-level architecture decisions
-- Key dependencies and their purposes
+## プロジェクト構造
+
+現在、リポジトリには以下のみが含まれています：
+- `README.md` - プロジェクト名「vup」のみを含む
+
+プロジェクトが発展するにつれて、このファイルは以下で更新されるべきです：
+- ビルドと開発コマンド
+- テスト手順
+- 高レベルのアーキテクチャの決定
+- 主要な依存関係とその目的
