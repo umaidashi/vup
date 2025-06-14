@@ -27,6 +27,15 @@ npm run tauri build
 - Backend: Located in `src-tauri/` directory
 - Main entry point: `src-tauri/src/main.rs`
 
+### Icons
+
+App icons should be placed in `src-tauri/icons/` directory. Tauri expects the following icon files:
+- `icon.png` - Main app icon (1024x1024px recommended)
+- `icon.icns` - macOS icon
+- `icon.ico` - Windows icon
+
+You can generate these from a single PNG using `tauri icon` command.
+
 ## Project Structure
 ```
 vup/
